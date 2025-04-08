@@ -18,13 +18,11 @@
     margin-bottom: 15px;
 }
 
-@Sm0k3#007#
-
 .form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #000
+    color: #000 !important
 }
 
 .form-group input {
@@ -32,7 +30,7 @@
     padding: 8px;
     border: 1px solid #FAB702;
     border-radius: 4px;
-    color: #000
+    color: #000 !important
 }
 
 .rpc-submit {

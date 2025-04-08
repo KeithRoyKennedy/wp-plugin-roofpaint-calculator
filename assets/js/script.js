@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
         e.preventDefault();
         
         // Show loading state
-        $('#rpc-result').html('<p class="rpc-loading"><?php esc_html_e('Calculating...', 'roof-paint-calculator'); ?></p>');
+        $('#rpc-result').html('<p class="rpc-loading">' + rpc_vars.calculating_text + '</p>');
         
         // Get form values
         var data = {

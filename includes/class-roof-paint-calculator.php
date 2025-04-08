@@ -1,49 +1,70 @@
 <?php
-class Roof_Paint_Calculator_Ajax {
+class Roof_Paint_Calculator {
     public function __construct() {
-        add_action('wp_ajax_rpc_calculate_paint', array($this, 'calculate_paint'));
-        add_action('wp_ajax_nopriv_rpc_calculate_paint', array($this, 'calculate_paint'));
+        // Load dependencies
+        require_once RPC_PLUGIN_DIR . 'includes/class-roof-paint-calculator-ajax.php';
+        
+        // Instantiate AJAX handler
+        new Roof_Paint_Calculator_Ajax();
+        
+        // Register hooks
+        $this->define_hooks();
     }
     
-    public function calculate_paint() {
-        // Verify nonce
-        check_ajax_referer('rpc_nonce', 'nonce');
+    public function run() {
+        // Load plugin textdomain
+        $this->load_textdomain();
+    }
+    
+    private function define_hooks() {
+        // Frontend hooks
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+        add_shortcode('roof_paint_calculator', array($this, 'display_calculator'));
+    }
+    
+    public function enqueue_assets() {
+        wp_enqueue_style(
+            'rpc-styles',
+            RPC_PLUGIN_URL . 'assets/css/style.css',
+            array(),
+            RPC_VERSION
+        );
         
-        // Validate inputs
-        if (empty($_POST['length']) || empty($_POST['width']) || empty($_POST['pitch']) || empty($_POST['coats'])) {
-            wp_send_json_error(__('All fields are required.', 'roof-paint-calculator'));
-        }
+        wp_enqueue_script(
+            'rpc-script',
+            RPC_PLUGIN_URL . 'assets/js/script.js',
+            array('jquery'),
+            RPC_VERSION,
+            true
+        );
         
-        $length = floatval($_POST['length']);
-        $width = floatval($_POST['width']);
-        $pitch = floatval($_POST['pitch']);
-        $coats = intval($_POST['coats']);
-        
-        // Validate values
-        if ($length <= 0 || $width <= 0) {
-            wp_send_json_error(__('Length and width must be positive numbers.', 'roof-paint-calculator'));
-        }
-        
-        if ($pitch < 0 || $pitch > 90) {
-            wp_send_json_error(__('Pitch must be between 0 and 90 degrees.', 'roof-paint-calculator'));
-        }
-        
-        if ($coats < 1 || $coats > 5) {
-            wp_send_json_error(__('Number of coats must be between 1 and 5.', 'roof-paint-calculator'));
-        }
-        
-        // Calculate roof area (accounting for pitch)
-        $pitch_rad = deg2rad($pitch);
-        $roof_area = ($length * $width) / cos($pitch_rad);
-        
-        // Use average 9 sqm per liter per coat
-        $coverage_per_liter_per_coat = 9;
-        $paint_needed = ($roof_area * $coats) / $coverage_per_liter_per_coat;
-        
-        wp_send_json_success(array(
-            'roof_area' => round($roof_area, 2),
-            'paint_needed' => round($paint_needed, 2),
-            'message' => __('Calculation successful!', 'roof-paint-calculator')
-        ));
+        wp_localize_script(
+            'rpc-script',
+            'rpc_vars',
+            array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('rpc_nonce'),
+                'calculating_text' => esc_html__('Calculating...', 'roof-paint-calculator'),
+                'roof_area_label' => esc_html__('Roof Area', 'roof-paint-calculator'),
+                'sqm_label' => esc_html__('sqm', 'roof-paint-calculator'),
+                'paint_needed_label' => esc_html__('Paint Needed', 'roof-paint-calculator'),
+                'liters_label' => esc_html__('liters', 'roof-paint-calculator'),
+                'connection_error' => esc_html__('Error connecting to server.', 'roof-paint-calculator')
+            )
+        );
+    }
+    
+    public function display_calculator() {
+        ob_start();
+        include RPC_PLUGIN_DIR . 'templates/calculator-form.php';
+        return ob_get_clean();
+    }
+    
+    public function load_textdomain() {
+        load_plugin_textdomain(
+            'roof-paint-calculator',
+            false,
+            dirname(RPC_PLUGIN_BASENAME) . '/languages'
+        );
     }
 }
