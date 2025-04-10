@@ -25,4 +25,6 @@
     </form>
     
     <div id="rpc-result" class="rpc-result"></div>
+    <div id="copywright"><a href="http://www.mrkennedy.co.za" title="Built By MrKennedy" target="_blank"><img src="https://mrkennedy.co.za/images/mrkennedy.jpeg" class="rpc-copy-logo"></div>
+
 </div>
