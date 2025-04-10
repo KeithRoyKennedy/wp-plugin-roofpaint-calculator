@@ -1,4 +1,4 @@
-.roof-paint-calculator {
+#rpc-mrk-wp .roof-paint-calculator {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
@@ -8,24 +8,24 @@
     color: #000;
 }
 
-.roof-paint-calculator h2 {
+#rpc-mrk-wp .roof-paint-calculator h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #FAB702
 }
 
-.form-group {
+#rpc-mrk-wp .form-group {
     margin-bottom: 15px;
 }
 
-.form-group label {
+#rpc-mrk-wp v.form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
     color: #000 !important
 }
 
-.form-group input {
+#rpc-mrk-wp .form-group input {
     width: 100%;
     padding: 8px;
     border: 1px solid #FAB702;
@@ -33,7 +33,7 @@
     color: #000 !important
 }
 
-.rpc-submit {
+#rpc-mrk-wp .rpc-submit {
     background: #4CAF50;
     color: white;
     border: none;
@@ -44,17 +44,31 @@
     font-size: 16px;
 }
 
-.rpc-submit:hover {
+#rpc-mrk-wp .rpc-submit:hover {
     background: #45a049;
 }
 
-.rpc-result {
+#rpc-mrk-wp, #copywright {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    overflow: hidden;
+}
+
+#rpc-mrk-wp .rpc-copy-logo {
+    margin: 0 auto;
+    max-width: 30px;
+    width: 30px;
+    border-radius: 30px;
+}
+
+#rpc-mrk-wp .rpc-result {
     margin-top: 20px;
     padding: 15px;
     background: #e9f7ef;
     border-radius: 4px;
 }
 
-.error {
+#rpc-mrk-wp .error {
     color: #d32f2f;
 }
