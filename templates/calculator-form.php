@@ -1,4 +1,4 @@
-<div class="roof-paint-calculator">
+<div id="rpc-mrk-wp" class="roof-paint-calculator">
     <h2><?php esc_html_e('Roof Paint Calculator', 'roof-paint-calculator'); ?></h2>
     <form id="rpc-form">
         <div class="form-group">
